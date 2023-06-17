@@ -1,1 +1,1 @@
-# Streamlit-App-for-data-annotation
+# Streamlit App for data annotation.
