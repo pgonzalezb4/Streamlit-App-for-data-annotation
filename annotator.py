@@ -74,7 +74,7 @@ with st.form('labeling', clear_on_submit=True):
 
 st.info(f"Annotated: {len(st.session_state.annotations)}")
 st.download_button(
-    "Download annotations as Excel file",
+    "Download annotations as CSV file",
     data=convert_df_to_csv(st.session_state.annotations),
     file_name='annotations.csv',
     mime='text/csv',
