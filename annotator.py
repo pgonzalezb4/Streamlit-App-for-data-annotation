@@ -1,7 +1,7 @@
 import pandas as pd
 import streamlit as st
 
-dataset = pd.read_parquet('master_news_scraped.parquet.gzip')
+dataset = pd.read_parquet('sample_news_scraped.parquet.gzip')
 
 factor_labels = [
     "Factor 1: Constraints on Government Powers",
