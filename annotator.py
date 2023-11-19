@@ -48,7 +48,7 @@ if st.session_state.authentication_status:
     )
     apikey = response['value']
 
-    with st.spinner(text="Retrieving data to label...", cache=False):
+    with st.spinner(text="Retrieving data for labeling process...", cache=False):
         try:
             r = requests.post(url, json={"username": st.session_state.username}, headers={'x-api-key': apikey})
             df_json = json.loads(r.content)
@@ -92,7 +92,7 @@ if st.session_state.authentication_status:
 
     if 'annotations' not in st.session_state:
         st.session_state.annotations = pd.DataFrame(
-            {'article_id': [], 'link': [], 'factor(s)': [], 'sentiment': []})
+            {'article_id': [], 'link': [], 'factor(s)': [], 'sentiment': [], 'comments': []})
 
     if 'available_factor_labels' not in st.session_state:
         st.session_state.available_factor_labels = factor_labels
@@ -140,7 +140,11 @@ if st.session_state.authentication_status:
     def set_label(label, sample_idx):
         if sample_idx < len(df):
             st.session_state.annotations = pd.concat([st.session_state.annotations,
-                                                      pd.DataFrame({'article_id': [df.iloc[sample_idx]['article_id']], 'link': [df.iloc[sample_idx]['link']], 'factor(s)': [label[0]], 'sentiment': [label[1]]})],
+                                                      pd.DataFrame({'article_id': [df.iloc[sample_idx]['article_id']], 
+                                                                    'link': [df.iloc[sample_idx]['link']], 
+                                                                    'factor(s)': [label[0]], 
+                                                                    'sentiment': [label[1]], 
+                                                                    'comments': [label[2]]})],
                                                      ignore_index=True)
 
     def set_stage(stage):
@@ -186,21 +190,20 @@ if st.session_state.authentication_status:
                     selected_sentiment_label = st.radio(
                         f"How does this impact the Rule of Law in {df.iloc[st.session_state.idx]['country']} **(based on the most relevant factor)**:", sorted(st.session_state.available_sentiment_labels))
 
-                    # if selected_sentiment_label in ['Negative', 'Positive']:
-                    #     importance_sentiment_label = st.radio(f"How {selected_sentiment_label} is this news", sorted(['1', '2', '3']))
-
+                    comments = st.text_input(label="Comments")
+                
                     st.form_submit_button(
                         label="Submit selection of factor and sentiment", on_click=set_stage, args=(2,))
 
                     if st.session_state.stage > 1:
                         print(st.session_state.stage)
                         set_label(
-                            [str(selected_factor_label), selected_sentiment_label], st.session_state.idx)
+                            [str(selected_factor_label), selected_sentiment_label, comments], st.session_state.idx)
                         second_form.empty()
                         st.session_state.idx += 1
 
             elif isrelated == 'No':
-                set_label(['Not related', 'Not related'], st.session_state.idx)
+                set_label(['Not related', 'Not related', 'Not related'], st.session_state.idx)
                 st.session_state.idx += 1
 
             show_sample(data_container, st.session_state.idx)
