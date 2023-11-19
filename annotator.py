@@ -15,8 +15,9 @@ from yaml.loader import SafeLoader
 logger = logging.getLogger()
 logger.setLevel(logging.INFO)
 
-s3_client = boto3.client('s3', aws_access_key_id=st.secrets["AK"], aws_secret_access_key=st.secrets["SK"], region_name='us-east-1')
+st.set_page_config(page_title="WJP Data Annotation Application")
 
+s3_client = boto3.client('s3', aws_access_key_id=st.secrets["AK"], aws_secret_access_key=st.secrets["SK"], region_name='us-east-1')
 api_gateway_client = boto3.client('apigateway', aws_access_key_id=st.secrets["AK"], aws_secret_access_key=st.secrets["SK"], region_name='us-east-1')
 
 # --- User authentication ---
