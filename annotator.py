@@ -10,10 +10,7 @@ import streamlit_authenticator as stauth
 
 from io import BytesIO
 from datetime import datetime
-from dotenv import load_dotenv
 from yaml.loader import SafeLoader
-
-load_dotenv()
 
 logger = logging.getLogger()
 logger.setLevel(logging.INFO)
