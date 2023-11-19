@@ -27,8 +27,7 @@ with open('credentials.yaml', 'r') as file:
 authenticator = stauth.Authenticate(
     config['credentials'], cookie_name="data_annotation", key="randomKeyCookies", cookie_expiry_days=30)
 
-st.session_state.name, st.session_state.authentication_status, st.session_state.username = authenticator.login(
-    "Login", "main")
+st.session_state.name, st.session_state.authentication_status, st.session_state.username = authenticator.login("Login", "main")
 
 if st.session_state.authentication_status == False:
     st.error('Username/password is incorrect.')
@@ -49,14 +48,15 @@ if st.session_state.authentication_status:
     )
     apikey = response['value']
 
-    try:
-        r = requests.post(url, json={"username": st.session_state.username}, headers={'x-api-key': apikey})
-        df_json = json.loads(r.content)
-        df = pd.DataFrame(df_json)
-    except Exception as e:
-        st.error('An error ocurred retrieving the data.')
-        st.error(e)
-        df = pd.DataFrame()
+    with st.spinner(text="Retrieving data to label...", cache=False):
+        try:
+            r = requests.post(url, json={"username": st.session_state.username}, headers={'x-api-key': apikey})
+            df_json = json.loads(r.content)
+            df = pd.DataFrame(df_json)
+        except Exception as e:
+            st.error('An error ocurred retrieving the data.')
+            st.error(e)
+            df = pd.DataFrame()
 
     factor_labels = [
         "No Factor",
