@@ -15,7 +15,7 @@ from yaml.loader import SafeLoader
 logger = logging.getLogger()
 logger.setLevel(logging.INFO)
 
-st.set_page_config(page_title="WJP Data Annotation Application", page_icon='https://govwatch.gr/wp-content/uploads/2022/03/WJR-logo.png')
+st.set_page_config(page_title="WJP Data Annotation Application", page_icon='https://worldjusticeproject.org/themes/custom/wjp/favicon-32x32.png')
 
 s3_client = boto3.client('s3', aws_access_key_id=st.secrets["AK"], aws_secret_access_key=st.secrets["SK"], region_name='us-east-1')
 api_gateway_client = boto3.client('apigateway', aws_access_key_id=st.secrets["AK"], aws_secret_access_key=st.secrets["SK"], region_name='us-east-1')
