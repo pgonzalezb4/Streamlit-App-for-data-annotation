@@ -44,7 +44,7 @@ if st.session_state.authentication_status:
     # --- Import data ---
     url = 'https://4o2u27lisl.execute-api.us-east-1.amazonaws.com/dev/get-unlabeled-data'
     response = api_gateway_client.get_api_key(
-        apiKey='7s2sdj2sre',
+        apiKey='ndor6g58kd',
         includeValue=True
     )
     apikey = response['value']
