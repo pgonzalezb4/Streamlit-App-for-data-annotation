@@ -189,7 +189,7 @@ if st.session_state.authentication_status:
                     selected_factor_label = st.multiselect(
                         "Select to which factor(s) this news text belongs **(if you select multiple, select them in order of relevance)**:", sorted(st.session_state.available_factor_labels))
                     selected_sentiment_label = st.radio(
-                        f"How does this impact the Rule of Law in {df.iloc[st.session_state.idx]['country']} **(based on the most relevant factor)**:", sorted(st.session_state.available_sentiment_labels))
+                        f"How does this impact the Rule of Law in {df.iloc[st.session_state.idx]['country']} **(based on the most relevant factor)**:", st.session_state.available_sentiment_labels)
 
                     comments = st.text_input(label="Comments")
                 
