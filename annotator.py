@@ -42,9 +42,9 @@ if st.session_state.authentication_status:
     authenticator.logout('Logout', 'main')
 
     # --- Import data ---
-    url = 'https://ktis60hh3m.execute-api.us-east-1.amazonaws.com/dev/get-unlabeled-data'
+    url = 'https://4o2u27lisl.execute-api.us-east-1.amazonaws.com/dev/get-unlabeled-data'
     response = api_gateway_client.get_api_key(
-        apiKey='as2q9nzhkd',
+        apiKey='7s2sdj2sre',
         includeValue=True
     )
     apikey = response['value']
@@ -163,7 +163,7 @@ if st.session_state.authentication_status:
 
         try:
             s3_client.put_object(Body=out_buffer.getvalue(),
-                                 Bucket='raw-labeled-news-data',
+                                 Bucket='raw-labeled-news',
                                  Key=f'{st.session_state.username}/raw_labeled_data_{datetime.now().strftime("%Y%m%d_%H:%M:%S")}.parquet.gzip')
             st.success('The annotated data has been sent. Thank you!')
             time.sleep(3)
