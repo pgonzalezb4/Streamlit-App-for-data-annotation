@@ -79,6 +79,36 @@ if st.session_state.authentication_status:
         "Very negative",
     ]
 
+    countries = [
+        'Austria',
+        'Belgium',
+        'Bulgaria',
+        'Croatia',
+        'Cyprus',
+        'Czech Republic',
+        'Denmark',
+        'Estonia',
+        'Finland',
+        'France',
+        'Germany',
+        'Greece',
+        'Hungary',
+        'Ireland',
+        'Italy',
+        'Latvia',
+        'Lithuania',
+        'Luxembourg',
+        'Malta',
+        'Netherland',
+        'Poland',
+        'Portugal',
+        'Romania',
+        'Slovakia',
+        'Slovenia',
+        'Spain',
+        'Sweden'
+    ]
+
     if 'idx' not in st.session_state:
         st.session_state.idx = 0
 
@@ -97,6 +127,9 @@ if st.session_state.authentication_status:
 
     if 'available_factor_labels' not in st.session_state:
         st.session_state.available_factor_labels = factor_labels
+
+    if 'countries' not in st.session_state:
+        st.session_state.countries = countries
 
     if 'available_sentiment_labels' not in st.session_state:
         st.session_state.available_sentiment_labels = sentiment_labels
@@ -175,6 +208,8 @@ if st.session_state.authentication_status:
 
     first_form = st.empty()
     second_form = st.empty()
+    third_form = st.empty()
+    fourth_form = st.empty()
     with first_form.form("isrelated"):
         data_container = st.empty()
         show_sample(data_container, st.session_state.idx)
@@ -187,19 +222,30 @@ if st.session_state.authentication_status:
             if isrelated == 'Yes':
                 with second_form.form('labeling'):
                     selected_factor_label = st.multiselect(
-                        "Select to which factor(s) this news text belongs **(if you select multiple, select them in order of relevance)**:", sorted(st.session_state.available_factor_labels))
+                        "Select to which factor(s) this news text belongs **(if you select multiple, select them in order of relevance)**:", 
+                        sorted(st.session_state.available_factor_labels))
                     selected_sentiment_label = st.radio(
-                        f"How does this impact the Rule of Law in {df.iloc[st.session_state.idx]['country']} **(based on the most relevant factor)**:", st.session_state.available_sentiment_labels)
+                        f"How does this impact the Rule of Law in {df.iloc[st.session_state.idx]['country']} **(based on the most relevant factor)**:", 
+                        st.session_state.available_sentiment_labels)
 
-                    comments = st.text_input(label="Comments")
-                
-                    st.form_submit_button(
-                        label="Submit selection of factor and sentiment", on_click=set_stage, args=(2,))
+                    with third_form.form('eu_related'):
+                        eu_related = st.radio('Does the article refer to events happening in the EU?', ['Yes', 'No'])
+                        if eu_related == 'No':
+                            with fourth_form.form('country_related'):
+                                selected_related_country = st.multiselect("Select to which country this news text is related:", 
+                                                                          sorted(st.session_state.countries))
+                    
+                                comments = st.text_input(label="Comments")
+
+                                st.form_submit_button(label="Submit", on_click=set_stage, args=(2,))
 
                     if st.session_state.stage > 1:
                         print(st.session_state.stage)
-                        set_label(
-                            [str(selected_factor_label), selected_sentiment_label, comments], st.session_state.idx)
+                        set_label([str(selected_factor_label), 
+                                   selected_sentiment_label,
+                                   eu_related,
+                                   selected_related_country if selected_related_country else None,
+                                   comments], st.session_state.idx)
                         second_form.empty()
                         st.session_state.idx += 1
 
