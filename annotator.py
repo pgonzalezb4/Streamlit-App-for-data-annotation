@@ -229,10 +229,9 @@ if st.session_state.authentication_status:
                         f"How does this impact the Rule of Law in {df.iloc[st.session_state.idx]['country']} **(based on the most relevant factor)**:", 
                         st.session_state.available_sentiment_labels)
 
-                    eu_related = st.radio('Does the article refer to events happening in the EU?', ['Yes', 'No'])
-                    if eu_related == 'No':
-                        selected_related_country = st.multiselect("Select to which country this news text is related:", 
-                                                                    sorted(st.session_state.countries))
+                    eu_related = st.radio('Does the article refer to events happening in the EU? **(if no, please select a country from the list).**', ['Yes', 'No'])
+                    selected_related_country = st.multiselect("Select to which country this news text is related:", 
+                                                              sorted(st.session_state.countries))
             
                     comments = st.text_input(label="Comments")
 
