@@ -196,7 +196,7 @@ if st.session_state.authentication_status:
                     eu_related = st.radio('Does the article refer to events happening in the EU?', ['Yes', 'No'])
                     selected_related_country = st.multiselect("Select to which country this news text is related:", sorted([val[1] for val in countries_for_language('en')]))
             
-                    st.markdown("<style>.stTextInput>div>div {border: 1px solid #482D8B;} </style>",unsafe_allow_html=True) #for all text input sections
+                    st.markdown("<style>.stTextInput>div {border: 1px solid #482D8B;} </style>",unsafe_allow_html=True) #for all text input sections
                     comments = st.text_input(label="Comments")
                     st.form_submit_button(label="Submit selection of factor and sentiment", on_click=set_stage, args=(2,))
 
