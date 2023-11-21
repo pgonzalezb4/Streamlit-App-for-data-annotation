@@ -216,8 +216,7 @@ if st.session_state.authentication_status:
         data_container = st.empty()
         show_sample(data_container, st.session_state.idx)
 
-        isrelated = st.radio(
-            'Is this news text related to the Rule of Law?', ['Yes', 'No'])
+        isrelated = st.radio('Is this news text related to the Rule of Law?', ['Yes', 'No'])
         st.form_submit_button("Submit", on_click=set_stage, args=(1,))
 
         if st.session_state.stage > 0:
@@ -230,16 +229,14 @@ if st.session_state.authentication_status:
                         f"How does this impact the Rule of Law in {df.iloc[st.session_state.idx]['country']} **(based on the most relevant factor)**:", 
                         st.session_state.available_sentiment_labels)
 
-                    with third_form.form('eu_related'):
-                        eu_related = st.radio('Does the article refer to events happening in the EU?', ['Yes', 'No'])
-                        if eu_related == 'No':
-                            with fourth_form.form('country_related'):
-                                selected_related_country = st.multiselect("Select to which country this news text is related:", 
-                                                                          sorted(st.session_state.countries))
-                    
-                                comments = st.text_input(label="Comments")
+                    eu_related = st.radio('Does the article refer to events happening in the EU?', ['Yes', 'No'])
+                    if eu_related == 'No':
+                        selected_related_country = st.multiselect("Select to which country this news text is related:", 
+                                                                    sorted(st.session_state.countries))
+            
+                    comments = st.text_input(label="Comments")
 
-                                st.form_submit_button(label="Submit", on_click=set_stage, args=(2,))
+                    st.form_submit_button(label="Submit selection of factor and sentiment", on_click=set_stage, args=(2,))
 
                     if st.session_state.stage > 1:
                         print(st.session_state.stage)
