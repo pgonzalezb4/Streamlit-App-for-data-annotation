@@ -235,7 +235,8 @@ if st.session_state.authentication_status:
             
                     comments = st.text_input(label="Comments")
 
-                    st.form_submit_button(label="Submit selection of factor and sentiment", on_click=set_stage, args=(2,))
+                    if selected_factor_label:
+                        st.form_submit_button(label="Submit selection of factor and sentiment", on_click=set_stage, args=(2,))
 
                     if st.session_state.stage > 1:
                         print(st.session_state.stage)
