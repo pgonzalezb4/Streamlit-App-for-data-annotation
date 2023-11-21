@@ -194,9 +194,8 @@ if st.session_state.authentication_status:
                         st.session_state.available_sentiment_labels)
 
                     eu_related = st.radio('Does the article refer to events happening in the EU?', ['Yes', 'No'])
-                    selected_related_country = st.multiselect("Select to which country this news text is related:", sorted([val[1] for val in countries_for_language('en')]))
+                    selected_related_country = st.selectbox("Select to which country this news text is related:", sorted([val[1] for val in countries_for_language('en')]))
             
-                    st.markdown("<style>.stTextInput>div {border: 1px solid #482D8B;} </style>",unsafe_allow_html=True) #for all text input sections
                     comments = st.text_input(label="Comments")
                     st.form_submit_button(label="Submit selection of factor and sentiment", on_click=set_stage, args=(2,))
 
@@ -211,7 +210,11 @@ if st.session_state.authentication_status:
                         st.session_state.idx += 1
 
             elif isrelated == 'No':
-                set_label(['Not related', 'Not related', 'Not related', 'Not related', 'Not related'], st.session_state.idx)
+                set_label(['Not related to Rule of Law', 
+                           'Not related to Rule of Law', 
+                           'Not related to Rule of Law', 
+                           'Not related to Rule of Law', 
+                           'Not related to Rule of Law'], st.session_state.idx)
                 st.session_state.idx += 1
 
             show_sample(data_container, st.session_state.idx)
