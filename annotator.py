@@ -177,8 +177,10 @@ if st.session_state.authentication_status:
                                                       pd.DataFrame({'article_id': [df.iloc[sample_idx]['article_id']], 
                                                                     'link': [df.iloc[sample_idx]['link']], 
                                                                     'factor(s)': [label[0]], 
-                                                                    'sentiment': [label[1]], 
-                                                                    'comments': [label[2]]})],
+                                                                    'sentiment': [label[1]],  
+                                                                    'is_eu_related': [label[2]], 
+                                                                    'related_country': [label[3]],
+                                                                    'comments': [label[4]]})],
                                                      ignore_index=True)
 
     def set_stage(stage):
@@ -247,10 +249,12 @@ if st.session_state.authentication_status:
                                    selected_related_country if selected_related_country else None,
                                    comments], st.session_state.idx)
                         second_form.empty()
+                        third_form.empty()
+                        fourth_form.empty()
                         st.session_state.idx += 1
 
             elif isrelated == 'No':
-                set_label(['Not related', 'Not related', 'Not related'], st.session_state.idx)
+                set_label(['Not related', 'Not related', 'Not related', 'Not related', 'Not related'], st.session_state.idx)
                 st.session_state.idx += 1
 
             show_sample(data_container, st.session_state.idx)
