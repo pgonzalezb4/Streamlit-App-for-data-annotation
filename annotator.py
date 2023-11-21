@@ -61,15 +61,15 @@ if st.session_state.authentication_status:
             df = pd.DataFrame()
 
     factor_labels = [
-        "No Factor",
-        "Factor 1: Constraints on Government Powers",
-        "Factor 2: Absence of Corruption",
-        "Factor 3: Open Government",
-        "Factor 4: Fundamental Rights",
-        "Factor 5: Order and Security",
-        "Factor 6: Regulatory Enforcement",
-        "Factor 7: Civil Justice",
-        "Factor 8: Criminal Justice",
+        "No Pillar",
+        "Pillar 1: Constraints on Government Powers",
+        "Pillar 2: Absence of Corruption",
+        "Pillar 3: Open Government",
+        "Pillar 4: Fundamental Rights",
+        "Pillar 5: Order and Security",
+        "Pillar 6: Regulatory Enforcement",
+        "Pillar 7: Civil Justice",
+        "Pillar 8: Criminal Justice",
     ]
 
     sentiment_labels = [
@@ -197,7 +197,7 @@ if st.session_state.authentication_status:
                     selected_related_country = st.selectbox("Select to which country this news text is related:", sorted([val[1] for val in countries_for_language('en')]))
             
                     comments = st.text_input(label="Comments")
-                    st.form_submit_button(label="Submit selection of factor and sentiment", on_click=set_stage, args=(2,))
+                    st.form_submit_button(label="Submit selection", on_click=set_stage, args=(2,))
 
                     if st.session_state.stage > 1:
                         print(st.session_state.stage)
