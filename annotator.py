@@ -123,7 +123,7 @@ if st.session_state.authentication_status:
 
     if 'annotations' not in st.session_state:
         st.session_state.annotations = pd.DataFrame(
-            {'article_id': [], 'link': [], 'factor(s)': [], 'sentiment': [], 'comments': []})
+            {'article_id': [], 'link': [], 'factor(s)': [], 'sentiment': [], 'is_eu_related': [], 'related_country': [], 'comments': []})
 
     if 'available_factor_labels' not in st.session_state:
         st.session_state.available_factor_labels = factor_labels
