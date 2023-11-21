@@ -149,8 +149,11 @@ if st.session_state.authentication_status:
                                                                     'comments': [label[4]]})],
                                                      ignore_index=True)
 
-    def set_stage(stage):
-        st.session_state.stage = stage
+    def set_stage(stage : int, info : list):
+        if len([elem for elem in info if elem is None]) > 0:
+            st.error('You should make a selection in each question.')
+        else:
+            st.session_state.stage = stage
 
     def send_data_to_s3(data: pd.DataFrame):
 
@@ -197,7 +200,10 @@ if st.session_state.authentication_status:
                     selected_related_country = st.selectbox("Select to which country this news text is related:", sorted([val[1] for val in countries_for_language('en')]))
             
                     comments = st.text_input(label="Comments")
-                    st.form_submit_button(label="Submit selection of factor and sentiment", on_click=set_stage, args=(2,))
+                    st.form_submit_button(label="Submit selection of factor and sentiment", on_click=set_stage, args=(2, [str(selected_factor_label) if selected_factor_label else None, 
+                                                                                                                          selected_sentiment_label, 
+                                                                                                                          eu_related, 
+                                                                                                                          selected_related_country if selected_related_country else None]))
 
                     if st.session_state.stage > 1:
                         print(st.session_state.stage)
@@ -205,7 +211,7 @@ if st.session_state.authentication_status:
                                    selected_sentiment_label,
                                    eu_related,
                                    selected_related_country if selected_related_country else None,
-                                   comments], st.session_state.idx)
+                                   comments if comments else None], st.session_state.idx)
                         second_form.empty()
                         st.session_state.idx += 1
 
