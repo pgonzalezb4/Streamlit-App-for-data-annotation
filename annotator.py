@@ -11,6 +11,7 @@ import streamlit_authenticator as stauth
 from io import BytesIO
 from datetime import datetime
 from yaml.loader import SafeLoader
+from country_list import countries_for_language
 
 logger = logging.getLogger()
 logger.setLevel(logging.INFO)
@@ -79,36 +80,6 @@ if st.session_state.authentication_status:
         "Very negative",
     ]
 
-    countries = [
-        'Austria',
-        'Belgium',
-        'Bulgaria',
-        'Croatia',
-        'Cyprus',
-        'Czech Republic',
-        'Denmark',
-        'Estonia',
-        'Finland',
-        'France',
-        'Germany',
-        'Greece',
-        'Hungary',
-        'Ireland',
-        'Italy',
-        'Latvia',
-        'Lithuania',
-        'Luxembourg',
-        'Malta',
-        'Netherland',
-        'Poland',
-        'Portugal',
-        'Romania',
-        'Slovakia',
-        'Slovenia',
-        'Spain',
-        'Sweden'
-    ]
-
     if 'idx' not in st.session_state:
         st.session_state.idx = 0
 
@@ -127,9 +98,6 @@ if st.session_state.authentication_status:
 
     if 'available_factor_labels' not in st.session_state:
         st.session_state.available_factor_labels = factor_labels
-
-    if 'countries' not in st.session_state:
-        st.session_state.countries = countries
 
     if 'available_sentiment_labels' not in st.session_state:
         st.session_state.available_sentiment_labels = sentiment_labels
@@ -160,8 +128,6 @@ if st.session_state.authentication_status:
                 """, unsafe_allow_html=True)
                 st.markdown(
                     f"<a style='color:#000000;' class='url_btn' target='_blank' href='{df.iloc[sample_idx]['link']}'>News source</a>", unsafe_allow_html=True)
-                st.markdown(
-                    f"<b class='subtitle'>{df.iloc[sample_idx]['country'].title()}</b>", unsafe_allow_html=True)
                 st.markdown(
                     f"<b class='title'>{df.iloc[sample_idx]['title_eng']}</b>", unsafe_allow_html=True)
                 with st.expander("Click here to see the news description"):
@@ -210,8 +176,6 @@ if st.session_state.authentication_status:
 
     first_form = st.empty()
     second_form = st.empty()
-    third_form = st.empty()
-    fourth_form = st.empty()
     with first_form.form("isrelated"):
         data_container = st.empty()
         show_sample(data_container, st.session_state.idx)
@@ -229,13 +193,12 @@ if st.session_state.authentication_status:
                         f"How does this impact the Rule of Law in {df.iloc[st.session_state.idx]['country']} **(based on the most relevant factor)**:", 
                         st.session_state.available_sentiment_labels)
 
-                    eu_related = st.radio('Does the article refer to events happening in the EU? **(if no, please select a country from the list).**', ['Yes', 'No'])
-                    selected_related_country = st.multiselect("Select to which country this news text is related:", 
-                                                              sorted(st.session_state.countries))
+                    eu_related = st.radio('Does the article refer to events happening in the EU?', ['Yes', 'No'])
+                    selected_related_country = st.multiselect("Select to which country this news text is related:", sorted([val[1] for val in countries_for_language('en')]))
             
                     st.markdown("<style>.stTextInput {border: 1px solid #482D8B;} </style>",unsafe_allow_html=True) #for all text input sections
                     comments = st.text_input(label="Comments")
-                    st.form_submit_button(label="Submit selection of factor and sentiment", on_click=set_stage, args=(2,), disabled=st.session_state.disabled)
+                    st.form_submit_button(label="Submit selection of factor and sentiment", on_click=set_stage, args=(2,))
 
                     if st.session_state.stage > 1:
                         print(st.session_state.stage)
@@ -245,8 +208,6 @@ if st.session_state.authentication_status:
                                    selected_related_country if selected_related_country else None,
                                    comments], st.session_state.idx)
                         second_form.empty()
-                        third_form.empty()
-                        fourth_form.empty()
                         st.session_state.idx += 1
 
             elif isrelated == 'No':
