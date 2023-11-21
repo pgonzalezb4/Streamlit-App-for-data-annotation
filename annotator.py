@@ -187,10 +187,10 @@ if st.session_state.authentication_status:
             if isrelated == 'Yes':
                 with second_form.form('labeling'):
                     selected_factor_label = st.multiselect(
-                        "Select to which factor(s) this news text belongs **(if you select multiple, select them in order of relevance)**:", 
+                        "Select to which pillar(s) this news text belongs **(if you select multiple, select them in order of relevance)**:", 
                         sorted(st.session_state.available_factor_labels))
                     selected_sentiment_label = st.radio(
-                        f"How does this impact the Rule of Law in {df.iloc[st.session_state.idx]['country']} **(based on the most relevant factor)**:", 
+                        f"How does this impact the Rule of Law in {df.iloc[st.session_state.idx]['country']} **(based on the most relevant pillar)**:", 
                         st.session_state.available_sentiment_labels)
 
                     eu_related = st.radio('Does the article refer to events happening in the EU?', ['Yes', 'No'])
