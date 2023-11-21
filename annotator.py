@@ -233,16 +233,13 @@ if st.session_state.authentication_status:
                     selected_related_country = st.multiselect("Select to which country this news text is related:", 
                                                               sorted(st.session_state.countries))
             
+                    st.markdown("<style>.stTextInput {border: 1px solid #482D8B;} </style>",unsafe_allow_html=True) #for all text input sections
                     comments = st.text_input(label="Comments")
-
-                    st.session_state.disabled = True
-                    if selected_factor_label:
-                        st.session_state.disabled = False
                     st.form_submit_button(label="Submit selection of factor and sentiment", on_click=set_stage, args=(2,), disabled=st.session_state.disabled)
 
                     if st.session_state.stage > 1:
                         print(st.session_state.stage)
-                        set_label([str(selected_factor_label), 
+                        set_label([str(selected_factor_label) if selected_factor_label else None, 
                                    selected_sentiment_label,
                                    eu_related,
                                    selected_related_country if selected_related_country else None,
