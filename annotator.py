@@ -205,7 +205,7 @@ if st.session_state.authentication_status:
                                    selected_sentiment_label,
                                    eu_related,
                                    selected_related_country if selected_related_country else None,
-                                   comments], st.session_state.idx)
+                                   comments if comments else None], st.session_state.idx)
                         second_form.empty()
                         st.session_state.idx += 1
 
