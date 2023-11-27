@@ -225,7 +225,7 @@ if st.session_state.authentication_status:
 
     st.info(f"Annotated: {len(st.session_state.annotations)}")
 
-    if len(st.session_state.annotations) >= 1:
+    if len(st.session_state.annotations) >= 8:
         st.markdown(
             '<p style="font-size:14px;">Once the data is sent, your session will be closed.</p>', unsafe_allow_html=True)
         st.button("Send annotated data to the cloud",
