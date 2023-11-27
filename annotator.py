@@ -61,7 +61,6 @@ if st.session_state.authentication_status:
             df = pd.DataFrame()
 
     factor_labels = [
-        "No Pillar",
         "Pillar 1: Constraints on Government Powers",
         "Pillar 2: Absence of Corruption",
         "Pillar 3: Open Government",
@@ -156,7 +155,6 @@ if st.session_state.authentication_status:
 
         # process data
         data.drop_duplicates(subset=['article_id'], inplace=True)
-        data.dropna(inplace=True)
 
         # send data to aws s3
         out_buffer = BytesIO()
@@ -201,11 +199,12 @@ if st.session_state.authentication_status:
 
                     if st.session_state.stage > 1:
                         print(st.session_state.stage)
-                        set_label([str(selected_factor_label) if selected_factor_label else None, 
-                                   selected_sentiment_label,
-                                   eu_related,
-                                   selected_related_country if selected_related_country else None,
-                                   comments if comments else None], st.session_state.idx)
+                        set_label([str(selected_factor_label) if selected_factor_label else '-', 
+                                   selected_sentiment_label if selected_sentiment_label else '-',
+                                   eu_related if eu_related else '-',
+                                   selected_related_country if selected_related_country else '-',
+                                   comments if comments else '-'], 
+                                   st.session_state.idx)
                         second_form.empty()
                         st.session_state.idx += 1
 
