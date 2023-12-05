@@ -192,7 +192,7 @@ if st.session_state.authentication_status:
                         st.session_state.available_sentiment_labels)
 
                     eu_related = st.radio('Does the article refer to events happening in the EU?', ['Yes', 'No'])
-                    selected_related_country = st.selectbox("Select to which country this news text is related:", sorted([val[1] for val in countries_for_language('en')]))
+                    selected_related_country = st.selectbox("Select to which country this news text is related:", sorted([val[1] for val in countries_for_language('en')] + ['European Union']))
             
                     comments = st.text_input(label="Comments")
                     st.form_submit_button(label="Submit selection", on_click=set_stage, args=(2,))
