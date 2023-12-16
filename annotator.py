@@ -55,6 +55,7 @@ if st.session_state.authentication_status:
             r = requests.post(url, json={"username": st.session_state.username}, headers={'x-api-key': apikey})
             df_json = json.loads(r.content)
             df = pd.DataFrame(df_json)
+            st.info(f'News to label: **{df.shape[0]}**')
         except Exception as e:
             st.error('An error ocurred retrieving the data.')
             st.error(e)
