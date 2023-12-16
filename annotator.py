@@ -225,15 +225,20 @@ if st.session_state.authentication_status:
 
     st.info(f"Annotated: {len(st.session_state.annotations)}")
 
-    if len(st.session_state.annotations) >= 1:
-        st.markdown(
-            '<p style="font-size:14px;">Once the data is sent, your session will be closed.</p>', unsafe_allow_html=True)
-        st.button("Send annotated data to the cloud",
-                  on_click=send_data_to_s3, args=(st.session_state.annotations,))
-    else:
-        st.markdown(
-            '<p style="font-size:14px;">You can only send data to the cloud after 1 or more annotated news.</p>', unsafe_allow_html=True)
-        st.button("Send annotated data to the cloud", disabled=True)
+    st.markdown(
+        '<p style="font-size:14px;">Once the data is sent, your session will be closed.</p>', unsafe_allow_html=True)
+    st.button("Send annotated data to the cloud",
+                on_click=send_data_to_s3, args=(st.session_state.annotations,))
+
+    # if len(st.session_state.annotations) >= 8:
+    #     st.markdown(
+    #         '<p style="font-size:14px;">Once the data is sent, your session will be closed.</p>', unsafe_allow_html=True)
+    #     st.button("Send annotated data to the cloud",
+    #               on_click=send_data_to_s3, args=(st.session_state.annotations,))
+    # else:
+    #     st.markdown(
+    #         '<p style="font-size:14px;">You can only send data to the cloud after 8 or more annotated news.</p>', unsafe_allow_html=True)
+    #     st.button("Send annotated data to the cloud", disabled=True)
 
     # object dataframe: st.session_state.annotations
     with st.expander("Click here to see annotations"):
